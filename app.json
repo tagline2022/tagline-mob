@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "tagline",
-    "slug": "tagline",
+    "name": "tagline-mob",
+    "slug": "tagline-mob",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
