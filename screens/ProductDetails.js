@@ -1,92 +1,52 @@
 import React from "react";
-import {
-  ScrollView,
-  View,
-  Image,
-  Text,
-  Button,
-  StyleSheet,
-} from "react-native";
-import { HeaderButtons, Item } from "react-navigation-header-buttons";
+import { StyleSheet, Dimensions, View } from "react-native";
+import { Button, theme } from "galio-framework";
+import { materialTheme } from "../constants/";
+// import ProductDetails from "./ProductDetails";
+const { width } = Dimensions.get("screen");
 
-import { MEALS } from "../data/dummy-data";
-import HeaderButton from "../components/HeaderButton";
-import DefaultText from "../components/DefaultText";
-
-const ListItem = (props) => {
+const ProductDetails = ({ navigation }) => {
   return (
-    <View style={styles.listItem}>
-      <DefaultText>{props.children}</DefaultText>
+    <View style={styles.container}>
+      <Button
+        style={styles.button}
+        color={materialTheme.COLORS.BUTTON_COLOR}
+        onPress={() => {
+          console.log("Back BTN Clicked");
+        }}
+      >
+        Go Back
+      </Button>
     </View>
   );
 };
 
-const ProductDetails = (props) => {
-  const mealId = props.navigation.getParam("mealId");
-
-  const selectedMeal = MEALS.find((meal) => meal.id === mealId);
-
-  return (
-    <ScrollView>
-      <Image source={{ uri: selectedMeal.imageUrl }} style={styles.image} />
-      <View style={styles.details}>
-        <DefaultText>{selectedMeal.duration}m</DefaultText>
-        <DefaultText>{selectedMeal.complexity.toUpperCase()}</DefaultText>
-        <DefaultText>{selectedMeal.affordability.toUpperCase()}</DefaultText>
-      </View>
-      <Text style={styles.title}>Ingredients</Text>
-      {selectedMeal.ingredients.map((ingredient) => (
-        <ListItem key={ingredient}>{ingredient}</ListItem>
-      ))}
-      <Text style={styles.title}>Steps</Text>
-      {selectedMeal.steps.map((step) => (
-        <ListItem key={step}>{step}</ListItem>
-      ))}
-    </ScrollView>
-  );
-};
-
-ProductDetails.navigationOptions = (navigationData) => {
-  const mealId = navigationData.navigation.getParam("mealId");
-  const selectedMeal = MEALS.find((meal) => meal.id === mealId);
-  return {
-    headerTitle: selectedMeal.title,
-    headerRight: (
-      <HeaderButtons HeaderButtonComponent={HeaderButton}>
-        <Item
-          title="Favorite"
-          iconName="ios-star"
-          onPress={() => {
-            console.log("Mark as favorite!");
-          }}
-        />
-      </HeaderButtons>
-    ),
-  };
-};
-
 const styles = StyleSheet.create({
-  image: {
-    width: "100%",
-    height: 200,
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
-  details: {
-    flexDirection: "row",
-    padding: 15,
-    justifyContent: "space-around",
+  button: {
+    width: width - theme.SIZES.BASE * 4,
+    height: theme.SIZES.BASE * 3,
+    shadowRadius: 5,
+    shadowOpacity: 5,
   },
-  title: {
-    fontFamily: "open-sans-bold",
-    fontSize: 22,
-    textAlign: "center",
+  pro: {
+    backgroundColor: materialTheme.COLORS.LABEL,
+    paddingHorizontal: 8,
+    marginLeft: 12,
+    borderRadius: 2,
+    height: 22,
   },
-  listItem: {
-    marginVertical: 10,
-    marginHorizontal: 20,
-    borderColor: "#ccc",
-    borderWidth: 1,
-    padding: 10,
+  gradient: {
+    zIndex: 1,
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+    height: 66,
   },
 });
-
 export default ProductDetails;

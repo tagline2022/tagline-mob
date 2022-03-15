@@ -1,65 +1,140 @@
 import React from "react";
-import { FlatList, StyleSheet, TouchableOpacity } from "react-native";
-import { HeaderButtons, Item } from "react-navigation-header-buttons";
+import { StyleSheet, Dimensions, ScrollView } from "react-native";
+import { Button, Block, Text, Input, theme } from "galio-framework";
+import { Icon, Product } from "../components/";
+import products from "../constants/products";
+const { width } = Dimensions.get("screen");
 
-import HeaderButton from "../components/HeaderButton";
-import { CATEGORIES } from "../data/dummy-data";
-import CategoryGridTile from "../components/CategoryGridTile";
+export default class Categories extends React.Component {
+  renderSearch = () => {
+    // const { navigation } = this.props;
+    const iconCamera = (
+      <Icon
+        size={16}
+        color={theme.COLORS.MUTED}
+        name="zoom-in"
+        family="material"
+      />
+    );
 
-const Categories = (props) => {
-  const renderGridItem = (itemData) => {
     return (
-      <CategoryGridTile
-        title={itemData.item.title}
-        color={styles.gridItembgColor}
-        onSelect={() => {
-          props.navigation.navigate({
-            routeName: "CategoryMeals",
-            params: {
-              categoryId: itemData.item.id,
-            },
-          });
-        }}
+      <Input
+        right
+        color="black"
+        style={styles.search}
+        iconContent={iconCamera}
+        placeholder="What are you looking for?"
+        // onFocus={() => navigation.navigate('Pro')}
       />
     );
   };
 
-  return (
-    <FlatList
-      keyExtractor={(item, index) => item.id}
-      data={CATEGORIES}
-      renderItem={renderGridItem}
-      numColumns={2}
-    />
-  );
-};
+  renderTabs = () => {
+    // const { navigation } = this.props;
 
-Categories.navigationOptions = (navData) => {
-  return {
-    headerTitle: "Meal Categories",
-    headerLeft: (
-      <HeaderButtons HeaderButtonComponent={HeaderButton}>
-        <Item
-          title="Menu"
-          iconName="ios-menu"
-          onPress={() => {
-            navData.navigation.toggleDrawer();
-          }}
-        />
-      </HeaderButtons>
-    ),
+    return (
+      <Block row style={styles.tabs}>
+        <Button
+          // shadowless
+          style={[styles.tab, styles.divider]}
+          onPress={() => {}}
+        >
+          <Block row middle>
+            <Icon name="grid" family="feather" style={{ paddingRight: 8 }} />
+            <Text size={16} style={styles.tabTitle}>
+              Categories
+            </Text>
+          </Block>
+        </Button>
+        <Button shadowless style={styles.tab} onPress={() => {}}>
+          <Block row middle>
+            <Icon
+              size={16}
+              name="camera-18"
+              family="GalioExtra"
+              style={{ paddingRight: 8 }}
+            />
+            <Text size={16} style={styles.tabTitle}>
+              Best Deals
+            </Text>
+          </Block>
+        </Button>
+      </Block>
+    );
   };
-};
+
+  renderProducts = () => {
+    return (
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.products}
+      >
+        <Block flex>
+          {products.map((ep, indx) => (
+            <Block flex row key={indx}>
+              <Product product={ep} style={{ marginRight: theme.SIZES.BASE }} />
+            </Block>
+          ))}
+        </Block>
+      </ScrollView>
+    );
+  };
+
+  render() {
+    return (
+      <Block flex center style={styles.Categories}>
+        {this.renderProducts()}
+      </Block>
+    );
+  }
+}
 
 const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+  Categories: {
+    width: width,
   },
-  gridItembgColor: {
-    backgroundColor: "gray",
+  search: {
+    height: 48,
+    width: width - 32,
+    marginHorizontal: 16,
+    borderWidth: 1,
+    borderRadius: 3,
+  },
+  header: {
+    backgroundColor: theme.COLORS.WHITE,
+    shadowColor: theme.COLORS.BLACK,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowRadius: 8,
+    shadowOpacity: 0.2,
+    elevation: 4,
+    zIndex: 2,
+  },
+  tabs: {
+    marginBottom: 24,
+    marginTop: 10,
+    elevation: 4,
+  },
+  tab: {
+    backgroundColor: theme.COLORS.TRANSPARENT,
+    width: width * 0.5,
+    borderRadius: 0,
+    borderWidth: 0,
+    height: 24,
+    elevation: 0,
+  },
+  tabTitle: {
+    lineHeight: 19,
+    fontWeight: "300",
+  },
+  divider: {
+    borderRightWidth: 0.3,
+    borderRightColor: theme.COLORS.MUTED,
+  },
+  products: {
+    width: width - theme.SIZES.BASE * 2,
+    paddingVertical: theme.SIZES.BASE * 2,
   },
 });
-
-export default Categories;

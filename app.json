@@ -4,9 +4,9 @@
     "slug": "tagline-mob",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+     "icon": "./assets/images/TIcon.png",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/images/TSplash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
